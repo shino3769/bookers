@@ -1,21 +1,31 @@
+<%= flash[:notice] %>
 <h1>Books</h1>
+
 
 <% @books.each do |book| %>
 <p>Title</p>
 <span>
     <%= link_to book.title, "/books/#{book.id}" %>
+<p>Body</p>
+    <%= book.body %>
 </span>
-  <p>Body</p>
+
   
-  <%= book.body %>
-  <%= link_to "show"%>
-  <%= link_to "edit"%>
+  <%= link_to "show", book_path(book.id) %>
+  <%= link_to "edit", edit_book_path(book.id) %>
  <%= link_to "Delete", book_path(book.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
 <% end %>
 
 
 <h1>New book</h1>
-
+<% if @book.errors.any? %>
+  <%= @book.errors.count %>errors 
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
 
 <%= form_with model: @book do |f| %>
   <h4>Title</h4>
